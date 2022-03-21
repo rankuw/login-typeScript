@@ -1,5 +1,4 @@
 import {Schema, model} from "mongoose";
-import bcrypt from "bcrypt";
 import md5 from "md5";
 
 export interface userInterface{
