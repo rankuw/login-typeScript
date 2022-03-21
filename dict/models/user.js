@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userModel = void 0;
 const mongoose_1 = require("mongoose");
-const bcrypt_1 = __importDefault(require("bcrypt"));
+const md5_1 = __importDefault(require("md5"));
 const userSchema = new mongoose_1.Schema({
     userName: {
         type: String,
@@ -37,13 +37,21 @@ const userSchema = new mongoose_1.Schema({
         type: Number
     }
 });
-// userSchema.pre("save", async function(next){
-//     // const saltRounds = await bcrypt.genSalt();
-//     // this.password = await bcrypt.hash(this.password, saltRounds);
-//     next();
+userSchema.pre("save", function (next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        if (this.isModified("password")) {
+            // const saltRounds = await bcrypt.genSalt();
+            // this.password = await bcrypt.hash(this.password, saltRounds);
+            console.log(this.password);
+            this.password = (0, md5_1.default)(this.password);
+            console.log(this.password);
+        }
+        next();
+    });
+});
+// userSchema.path("password").validate(async function(this: userInterface) {
+//     const saltRounds = await bcrypt.genSalt();
+//     console.log("Validating password");
+//     this.password = await <Promise<String>>bcrypt.hash(this.password as string, saltRounds);
 // })
-userSchema.path("password").validate((value) => __awaiter(void 0, void 0, void 0, function* () {
-    const saltRounds = yield bcrypt_1.default.genSalt();
-    value = yield bcrypt_1.default.hash(value, saltRounds);
-}));
 exports.userModel = (0, mongoose_1.model)('User', userSchema);

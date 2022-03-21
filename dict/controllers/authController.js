@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const user_1 = require("../models/user");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const bcrypt_1 = __importDefault(require("bcrypt"));
+const md5_1 = __importDefault(require("md5"));
 function getToken(id) {
     return jsonwebtoken_1.default.sign({ id }, process.env.JWT_SECRET, {
         expiresIn: 60 * 60
@@ -61,7 +61,7 @@ class AuthController {
                         if (user.isActive === false) {
                             throw new Error(`No user with userName ${user.userName} found`);
                         }
-                        const result = yield bcrypt_1.default.compare(password, user.password);
+                        const result = (user.password === (0, md5_1.default)(password));
                         if (result) {
                             const token = getToken(user._id);
                             res.cookie("jwt", token, {
@@ -112,6 +112,7 @@ class AuthController {
             let id = req.body.idFromAuth.id;
             try {
                 if (id) {
+                    let userName = req.body.userName;
                     delete req.body.userName;
                     const user = yield user_1.userModel.findOne({ _id: id });
                     const arr = Object.keys(req.body);
@@ -119,7 +120,8 @@ class AuthController {
                         user[val] = req.body[val];
                     }
                     const result = yield user.save();
-                    res.status(201).send(result);
+                    // const result = await userModel.findOne({_id: id}, req.body);
+                    res.status(201).send(`${result} updated`);
                 }
                 else {
                     throw new Error("Could not update user try again...");

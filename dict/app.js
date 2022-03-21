@@ -34,6 +34,7 @@ const errorMiddleware_1 = __importDefault(require("./middleware/errorMiddleware"
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 dotenv;
 const PORT = process.env.PORT || 3000;
+console.log(process.env.XDG_SESSION_TYPE);
 (0, db_1.connectDb)();
 const app = (0, express_1.default)();
 //middleware
