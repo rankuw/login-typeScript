@@ -7,7 +7,6 @@ import cookies from "cookie-parser"
 
 dotenv
 const PORT = process.env.PORT || 3000;
-console.log(process.env.XDG_SESSION_TYPE)
 
 connectDb();
 const app = express();

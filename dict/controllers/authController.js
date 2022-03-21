@@ -61,7 +61,7 @@ class AuthController {
                         if (user.isActive === false) {
                             throw new Error(`No user with userName ${user.userName} found`);
                         }
-                        const result = (user.password === (0, md5_1.default)(password));
+                        const result = (user.password === (0, md5_1.default)(password.toString()));
                         if (result) {
                             const token = getToken(user._id);
                             res.cookie("jwt", token, {

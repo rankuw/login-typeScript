@@ -49,7 +49,8 @@ export default class AuthController{
                     if(user.isActive === false){
                         throw new Error(`No user with userName ${user.userName} found`);
                     }
-                    const result = (user.password === md5(password));
+                    const result = (user.password === md5(password.toString()));
+
                     if(result){
                         const token : String = getToken(user._id);
                         res.cookie("jwt", token, {

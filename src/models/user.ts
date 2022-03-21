@@ -38,7 +38,7 @@ userSchema.pre("save", async function(next){
         // const saltRounds = await bcrypt.genSalt();
         // this.password = await bcrypt.hash(this.password, saltRounds);
         console.log(this.password);
-        this.password = <String>md5(this.password);
+        this.password = md5((this.password).toString());
         console.log(this.password);
     }
     next();
