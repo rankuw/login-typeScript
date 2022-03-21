@@ -121,7 +121,7 @@ class AuthController {
                     }
                     const result = yield user.save();
                     // const result = await userModel.findOne({_id: id}, req.body);
-                    res.status(201).send(`${result} updated`);
+                    res.status(201).send(`${result.userName} updated`);
                 }
                 else {
                     throw new Error("Could not update user try again...");
